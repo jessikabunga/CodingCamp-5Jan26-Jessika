@@ -5,7 +5,6 @@ const deleteAll = document.getElementById("deleteAll");
 
 let todos = [];
 
-// FORM SUBMIT
 form.addEventListener("submit", function (e) {
   e.preventDefault();
 
@@ -14,7 +13,6 @@ form.addEventListener("submit", function (e) {
   const desc = document.getElementById("description").value.trim();
   const status = document.getElementById("status").value;
 
-  // VALIDATION
   if (!date || !title || !desc || !status) {
     alert("All fields are required!");
     return;
@@ -25,10 +23,8 @@ form.addEventListener("submit", function (e) {
   renderTodos();
 });
 
-// FILTER
 filter.addEventListener("change", renderTodos);
 
-// DELETE ALL
 deleteAll.addEventListener("click", function () {
   if (confirm("Delete all to-do items?")) {
     todos = [];
@@ -36,7 +32,6 @@ deleteAll.addEventListener("click", function () {
   }
 });
 
-// RENDER LIST
 function renderTodos() {
   list.innerHTML = "";
   const selectedFilter = filter.value;
@@ -46,10 +41,12 @@ function renderTodos() {
     if (selectedFilter !== "all" && todo.status !== selectedFilter) return;
 
     const tr = document.createElement("tr");
+
     tr.innerHTML = `
       <td>${no++}</td>
       <td>${todo.title}</td>
       <td>${todo.desc}</td>
+      <td>${formatDate(todo.date)}</td>
       <td>
         <span class="status ${todo.status}">
           ${todo.status}
@@ -59,12 +56,11 @@ function renderTodos() {
         <span class="delete" onclick="deleteTodo(${index})">Delete</span>
       </td>
     `;
+
     list.appendChild(tr);
   });
 }
 
-
-// DELETE SINGLE
 function deleteTodo(index) {
   todos.splice(index, 1);
   renderTodos();
