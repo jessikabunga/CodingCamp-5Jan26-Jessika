@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List Web Application</title>
+    <link rel="stylesheet" href="css\style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>To-Do List</h1>
+
+        <form id="todoform">
+            <input type="date" id="date" required>
+            <input type="text" id="title" placeholder="Title" required>
+            <textarea id="description" placeholder="Description" required></textarea>
+            <select id="status" required>
+                <option value="selectStatus">Select Status</option>
+                <option value="toDo">To Do</option>
+                <option value="inProgress">In Progress</option>
+                <option value="completed">Completed</option>
+            </select>
+
+            <button type="submit">Add</button>
+        </form>
+
+        <div class="filter">
+            <select id="filterStatus">
+                <option value="byName">Name</option>
+                <option value="byStatus">Status</option>
+                <option value="byDateAdded">Date Added</option>
+                <option value="byDateModified">Date Modified</option>
+            </select>
+
+            <button id="deleteAll">Delete All</button>
+        </div>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody id="todoList"></tbody>
+            </table>
+        </div>
+    </div>
+
+    
+    
+    <script src=""></script>
+</body>
+</html>
