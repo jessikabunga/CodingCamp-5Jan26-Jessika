@@ -5,6 +5,18 @@ const deleteAll = document.getElementById("deleteAll");
 
 let todos = [];
 
+function saveTodos() {
+  localStorage.setItem("todos", JSON.stringify(todos));
+}
+
+function loadTodos() {
+  const data = localStorage.getItem("todos");
+  if (data) {
+    todos = JSON.parse(data);
+    renderTodos();
+  }
+}
+
 form.addEventListener("submit", function (e) {
   e.preventDefault();
 
@@ -14,23 +26,46 @@ form.addEventListener("submit", function (e) {
   const status = document.getElementById("status").value;
 
   if (!date || !title || !desc || !status) {
-    alert("All fields are required!");
+    alert("Semua field wajib diisi!");
     return;
   }
 
-  todos.push({ date, title, desc, status });
-  form.reset();
+  todos.push({
+    date,
+    title,
+    desc,
+    status
+  });
+
+  saveTodos();
   renderTodos();
+  form.reset();
 });
 
 filter.addEventListener("change", renderTodos);
 
+function deleteTodo(index) {
+  todos.splice(index, 1);
+  saveTodos();
+  renderTodos();
+}
+
 deleteAll.addEventListener("click", function () {
-  if (confirm("Delete all to-do items?")) {
+  if (confirm("Yakin ingin menghapus semua data?")) {
     todos = [];
+    saveTodos();
     renderTodos();
   }
 });
+
+function formatDate(date) {
+  if (!date) return "-";
+  return new Date(date).toLocaleDateString("id-ID", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric"
+  });
+}
 
 function renderTodos() {
   list.innerHTML = "";
@@ -41,7 +76,6 @@ function renderTodos() {
     if (selectedFilter !== "all" && todo.status !== selectedFilter) return;
 
     const tr = document.createElement("tr");
-
     tr.innerHTML = `
       <td>${no++}</td>
       <td>${todo.title}</td>
@@ -53,7 +87,9 @@ function renderTodos() {
         </span>
       </td>
       <td>
-        <span class="delete" onclick="deleteTodo(${index})">Delete</span>
+        <span class="delete" onclick="deleteTodo(${index})">
+          Delete
+        </span>
       </td>
     `;
 
@@ -61,7 +97,4 @@ function renderTodos() {
   });
 }
 
-function deleteTodo(index) {
-  todos.splice(index, 1);
-  renderTodos();
-}
+loadTodos();
